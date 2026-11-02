@@ -1,0 +1,16 @@
+name: An idea
+description: A new mood, mark, accessory or way to use the snowman.
+labels: [idea]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What the snowman should do, and what activity should cause it.
+    validations:
+      required: true
+  - type: textarea
+    id: sketch
+    attributes:
+      label: A sketch
+      description: Pixel sketches, references or mockups, if you have them.

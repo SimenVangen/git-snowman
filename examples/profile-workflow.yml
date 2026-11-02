@@ -1,0 +1,41 @@
+# Copy this to .github/workflows/snowman.yml in your profile repository
+# (the repository named after your username), then add the snowman to its
+# README.md:
+#
+#   ![My snowman](assets/snowman.gif)
+#
+# The snowman is redrawn every night just after midnight UTC, when the day
+# that just ended sets its mood. Run it by hand from the Actions tab the
+# first time.
+
+name: Snowman
+
+on:
+  schedule:
+    - cron: "7 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: SimenVangen/git-snowman@v0
+        with:
+          output: assets/snowman.gif
+
+      - name: Commit the snowman
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/snowman.gif
+          if git diff --cached --quiet; then
+            echo "The snowman hasn't changed."
+          else
+            git commit -m "Redraw the snowman"
+            git push
+          fi
